@@ -1,5 +1,10 @@
 # app_web
 
+## Instalar
+
+1. Instalar NodeJs versión v16.16.0
+2. Instalar NPM versión 8.11.0
+
 ## Project setup
 ```
 npm install
