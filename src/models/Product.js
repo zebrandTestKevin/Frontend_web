@@ -17,9 +17,11 @@ export default class Product{
         this.imageUrl=imageUrl;
     }
 
+
     toJson(){
         return JSON.stringify(this);
     }
+    
 
     fromJson(json){
         this.productId=json.productId;

@@ -1,15 +1,17 @@
 import {apiUrl} from '../config/config';
 import axios from 'axios';
-// import Product from '../models/Product'
 
+//functions of the productService
 export const productService={
     addProduct,
     editProduct,
-    getProduct,
-    deleteProduct
+    getProducts,
+    deleteProduct,
+    addView
 };
 
-async function getProduct(){
+//endpoint to get the list of all the products
+async function getProducts(){
     return axios({
         url: `${apiUrl}product`,
         method: 'GET',
@@ -29,6 +31,7 @@ async function getProduct(){
     });
 }
 
+//endpoint to edit an specific product
 async function editProduct(product){
     return axios({
         url: `${apiUrl}product/add`,
@@ -49,6 +52,7 @@ async function editProduct(product){
     });
 }
 
+//endpoint to add a new product
 async function addProduct(product) {
     return axios({
         url: `${apiUrl}product/add`,
@@ -58,7 +62,7 @@ async function addProduct(product) {
     })
     .then((response) => {
         if(response.status == 200){
-            return response.data;
+            return response.data.productId;
         }else{
             return null;
         }
@@ -67,14 +71,33 @@ async function addProduct(product) {
     });
 }
 
-//revisar endpoint
+//endpoint to notify the backend about a petition of a specific product
+async function addView(product) {
+    console.log("add view endpoint");
+    return axios({
+        url: `${apiUrl}product/view`,
+        method: "POST",
+        data: product.toJson(),
+        headers: {"Content-Type": 'application/json'},
+    })
+    .then((response) => {
+        if(response.status == 200){
+            return true;
+        }else{
+            return null;
+        }
+    }).catch((e) => {
+        console.log(e);
+        return null
+    });
+}
+
+//endpoint to delete an specific product
 async function deleteProduct(product){
     return axios({
-        url: `${apiUrl}product/delete/${product.id}`,
+        url: `${apiUrl}product/delete/${product.productId}`,
         method: "DELETE"
-        , params: {
-            userId: product.productId
-        },
+        , 
         headers: {"Content-Type": 'application/json'},
     })
     .then(response => {

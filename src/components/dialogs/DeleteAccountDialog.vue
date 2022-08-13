@@ -12,7 +12,7 @@
         </v-card-title>
 
         <v-card-text>
-          Esta seguro que desea eliminar la cuenta "{{account.userName}}"
+          Esta seguro que desea eliminar la cuenta "{{account.name}}"
         </v-card-text>
 
         <v-card-actions>
@@ -55,7 +55,7 @@ export default {
   },
   watch: {
     account(value) {
-      this.accountEdit = new Account(value.idUser, value.userName);
+      this.accountEdit = new Account(value.userId, value.name);
 
     }
   },

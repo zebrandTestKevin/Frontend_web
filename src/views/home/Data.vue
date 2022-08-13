@@ -3,46 +3,10 @@
     <v-col cols="12">
       <br><br>
       <v-container>
-        <CardProduct v-for="(product,index) in products" :key="index" :name="product.name"></CardProduct>
-        <!-- <CardProduct></CardProduct> -->
-        <!-- <CardProduct></CardProduct> -->
-        <!-- <CardProduct></CardProduct> -->
-      </v-container>
-      <v-container>
-        <!-- <v-row class="justify-center" align="center"
-               justify="center" no-gutters>
-
-          <v-col cols="6" xl="3" md="4">
-            <select-value
-                :items="locations"
-                :label="'Tipo'"
-                v-bind:value="type"
-                v-on:input="type = $event"
-            ></select-value>
-          </v-col>
-        </v-row>
-
-        
-        <br>
-        <v-row class="justify-center" align="center"
-               justify="center" no-gutters>
-          <v-col cols="10" lg="3" sm="7" md="4" xl="3">
-            <v-btn class="button-add" v-on:click="login">
-              <v-icon>mdi-upload</v-icon>
-              Loguearse
-            </v-btn>
-          </v-col>
-        </v-row> -->
-        <v-col cols="10" lg="3" sm="7" md="4" xl="3">
-            <v-btn class="button-add" v-on:click="login">
-              <v-icon>mdi-upload</v-icon>
-              Loguearse
-            </v-btn>
-          </v-col>
-
+        <CardProduct  @openProduct="obtainProduct($event)" v-for="(product,index) in products" :key="index" :item="product" :name="product.name" :url="product.imageUrl" :price="product.price" ></CardProduct>
       </v-container>
 
-
+      <product-dialog></product-dialog>
     </v-col>
 
   </v-row>
@@ -51,22 +15,23 @@
 <script>
 // import selectValue from '../../components/inputs/selectValue.vue';
 import {mapActions, mapState} from 'vuex';
-import router from '../../router';
 import CardProduct from '../../components/CardProduct.vue'
+import ProductDialog from '../../components/dialogs/ProductDialog.vue';
+import Product from '../../models/Product';
 // import Data from '../../models/Data'
 
 export default {
-  components: {CardProduct},
+  components: {
+    CardProduct,
+    ProductDialog
+  },
   data: () => ({
-    filelist: [],
     productList: [],
     // products: [{name:"Prueba1",id:'1',price:'12.5'},{name:"Prueba2",id:'2',price:'12.5'}],
     locations: [{name: 'Paises', id: '1'}, {name: 'Departamentos', id: '2'}, {name: 'Municipios', id: '3'}],
-    type: 0,
-    replace: false
   }),
   created() {
-    this.getProduct();
+    this.getProducts();
   },
   computed: {
     ...mapState('product', ['products']),
@@ -78,13 +43,14 @@ export default {
   },
   // components:{CardProduct},
   methods: {
-    ...mapActions('product', ['getProduct']),
+    ...mapActions('product', ['getProducts','dialogProductOpen']),
     seeProduct() {
-      this.getProduct();
+      this.getProducts();
     },
-    login() {
-      router.push({path: "/login"}).catch(() => {
-      });
+    obtainProduct(product) {
+      var currentProduct=new Product(product.productId, product.name, product.price, product.amount,product.request, product.brand, product.imageUrl)
+      this.dialogProductOpen({product: currentProduct, title: "Producto"})
+
     },
   }
 }

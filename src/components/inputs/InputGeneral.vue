@@ -20,6 +20,7 @@
               :rules="rules"
               :minlength="lim"
               :autocomplete="auto"
+              :readonly="readonly"
           />
         </div>
       </v-col>
@@ -30,8 +31,6 @@
 
 <script>
 export default {
-
-
   props: {
     "label": {type: String, default: "input"},
     "icon": {type: String, default: "mdi-map-marker"},
@@ -39,6 +38,7 @@ export default {
     "lim": {type: String, default: "1"},
     "auto": {type: String, default: ""},
     "rules": {},
+    "readonly": {type: Boolean, default: false},
     value: {}
   },
   data: () => ({}),

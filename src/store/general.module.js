@@ -1,7 +1,9 @@
+//Module for the loading view
 const state = {
     loading: false,
     label: ""
 };
+
 const mutations = {
     changeLoading(state, data) {
         state.loading = data.type;
@@ -9,7 +11,6 @@ const mutations = {
     },
 };
 const actions = {};
-
 
 export const general = {
     namespaced: true,

@@ -6,8 +6,6 @@
     <v-col cols="10">
       <div class="input">
         <v-text-field
-
-
             dark
             dense
             class="input-in"
@@ -29,8 +27,6 @@
 
 <script>
 export default {
-
-
   props: {
     "label": {type: String, default: "input"},
     "icon": {type: String, default: "mdi-map-marker"},

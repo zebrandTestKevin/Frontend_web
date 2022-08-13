@@ -31,7 +31,7 @@
             </v-col>
           </v-row>
           <br><br>
-          <v-form v-model="valid" ref="form" lazy-validation @submit.native.prevent="verifyData">
+          <v-form v-model="valid" ref="form" lazy-validation>
             <v-row no-gutters>
               <v-col cols="2" sm="4" md="3" lg="4"></v-col>
               <v-col cols="8" sm="4" md="6" lg="4">
@@ -43,7 +43,6 @@
                     :rules="[rules.Required,rules.emailVerify]"
                     v-bind:value="emailText"
                     v-on:input="emailText = $event"
-                    @keyup.enter.native="verifyData"
                 ></input-login>
               </v-col>
             </v-row>
@@ -59,7 +58,6 @@
                     :rules="[rules.passwordMin]"
                     v-bind:value="passText"
                     v-on:input="passText = $event"
-                    @keyup.enter.native="verifyData"
                 ></input-login>
               </v-col>
             </v-row>
@@ -69,7 +67,7 @@
               <v-col cols="4" sm="2" md="4" lg="2">
                 <button-login
                     :name="'Acceder'"
-                    @click.native="verifyData"
+                    @click.native="homeAdmin"
                 ></button-login>
               </v-col>
             </v-row>
@@ -78,16 +76,16 @@
         </v-col>
       </v-row>
     </v-col>
-    <!-- <div class="footer-copy">Visor de informacion del COVID-19 © {{year}}</div> -->
   </v-container>
 
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+
+import router from '../router';
 import ButtonLogin from './ButtonLogin.vue'
-import InputLogin from './InputLogin.vue'
-import LoginRequest from '../models/LoginRequest'
+import InputLogin from './inputs/InputLogin.vue'
+// import LoginRequest from '../models/LoginRequest'
 
 export default {
   components: {
@@ -96,7 +94,6 @@ export default {
   },
   data: () => ({
     valid: false,
-    year: new Date(Date.now()).getFullYear(),
     emailText: null,
     passText: null,
     rules: {
@@ -111,18 +108,12 @@ export default {
     }
   }),
   methods: {
-    ...mapActions('account', ['login']),
-    verifyData(ev) {
-      ev.preventDefault()
-      if (!this.valid || this.emailText == null || this.passText == null) return;
-      var user = new LoginRequest(this.emailText, this.passText)
-      this.login(user)
-
-    }
+    homeAdmin(){
+        router.push({path: "/homeAdmin/accounts"}).catch(() => {
+        });
+      },
   }
 }
-
-
 </script>
 
 <style scoped lang="sass">

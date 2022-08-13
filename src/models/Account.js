@@ -1,16 +1,16 @@
 export default class Account {
-    idUser;
-    userName;
-    lastName;
-    email;
+    userId;
+    mail;
     password;
+    name;
+    status;
 
-    constructor(idUser, userName, lastname, email, password) {
-        this.idUser = idUser;
-        this.userName = userName;
-        this.lastName = lastname;
-        this.email = email;
+    constructor(userId, mail, password, name, status) {
+        this.userId = userId;
+        this.mail = mail;
         this.password = password;
+        this.name = name;
+        this.status = status;
     }
 
     toJson() {
@@ -18,11 +18,11 @@ export default class Account {
     }
 
     fromJson(json) {
-        this.idUser = json.idUser;
-        this.userName = json.userName;
-        this.lastName = json.lastName;
-        this.email = json.email;
+        this.userId = json.userId;
+        this.mail = json.mail;
         this.password = json.password;
+        this.name= json.name;
+        this.status= json.status;
         return this;
     }
 

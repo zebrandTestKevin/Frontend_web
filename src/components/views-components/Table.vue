@@ -10,7 +10,7 @@
         :disable-pagination="true"
         hide-default-footer
     >
-      <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item}">
         <v-icon
             small
             class="edit-icon"
@@ -27,7 +27,8 @@
         </v-icon>
       </template>
     </v-data-table>
-    <div class="paginator-container">
+    <div class="paginator-container"></div>
+    <!-- <div class="paginator-container">
       <h4 class="total-label">{{1+10*page}} - {{10+10*page}} de <h4 class="total-label-prin">{{total}}</h4></h4>
       <v-icon v-bind:class="{ 'paginator-button': page<=0,'paginator-button-active': page>0 }" v-on:click="previusPage">
         mdi-chevron-left
@@ -35,7 +36,7 @@
       <v-icon v-bind:class="{ 'paginator-button': total-10-page*10<=0,'paginator-button-active': total-10-page*10>0 }"
               v-on:click="nextPage">mdi-chevron-right
       </v-icon>
-    </div>
+    </div> -->
   </div>
 
 </template>
@@ -58,20 +59,20 @@ export default {
     deleteValue(item) {
       this.$emit("deleteValue", item)
     },
-    previusPage() {
-      if (this.page > 0) {
-        this.page--;
-        this.$emit('changePage', this.page)
-      }
-    },
-    nextPage() {
-      console.log("next");
-      console.log(this.total - this.page * 10 - 10);
-      if (this.total - this.page * 10 - 10 > 0) {
-        this.page++;
-        this.$emit('changePage', this.page)
-      }
-    }
+    // previusPage() {
+    //   if (this.page > 0) {
+    //     this.page--;
+    //     this.$emit('changePage', this.page)
+    //   }
+    // },
+    // nextPage() {
+    //   console.log("next");
+    //   console.log(this.total - this.page * 10 - 10);
+    //   if (this.total - this.page * 10 - 10 > 0) {
+    //     this.page++;
+    //     this.$emit('changePage', this.page)
+    //   }
+    // }
   }
 }
 </script>

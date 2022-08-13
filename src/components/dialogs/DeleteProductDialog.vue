@@ -8,11 +8,11 @@
       <v-card
           class="dialog-container">
         <v-card-title>
-          <span class="headline">Eliminar Noticia</span>
+          <span class="headline">Eliminar Producto</span>
         </v-card-title>
 
         <v-card-text>
-          Esta seguro que desea eliminar la noticia "{{news.idNews}}"
+          Esta seguro que desea eliminar el producto "{{product.name}}"
         </v-card-text>
 
         <v-card-actions>
@@ -39,35 +39,34 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
-import News from '../../models/News';
+import Product from '../../models/Product';
 
 
 export default {
   props: {},
   data: () => ({
-    accountEdit: {},
-    newsEdit: {},
+    productEdit: {},
   }),
 
   computed: {
-    ...mapState('viewNewsList', ['dialogDeleteState', 'news'])
+    ...mapState('product', ['dialogDeleteState', 'product'])
   },
   mounted() {
   },
   watch: {
-    news(value) {
-      this.newsEdit = new News(value.idNews, value.title, value.content, value.dateNews, value.newsImages, value.newsUrl);
+    product(value) {
+      this.productEdit = new Product(value.productId, value.name);
 
     }
   },
   methods: {
-    ...mapActions('viewNewsList', ['dialogDeleteClose', 'deleteNews']),
+    ...mapActions('product', ['dialogDeleteClose', 'deleteProduct']),
     cancel() {
       this.dialogDeleteClose();
     },
     save() {
       this.dialogDeleteClose();
-      this.deleteNews(this.newsEdit)
+      this.deleteProduct(this.productEdit)
     }
   }
 }

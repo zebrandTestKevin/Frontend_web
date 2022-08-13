@@ -6,24 +6,28 @@
     dark
   >
     <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      :src="url"
       height="200px"
+      width="250px"
     ></v-img>
 
     <v-card-title>
       {{name}}
     </v-card-title>
 
-    <v-card-subtitle>
-      1,000 miles of wonder
+    <v-card-subtitle >
+      <v-row class="mx-0">
+        Costo: {{price}} Bs
+      </v-row>
     </v-card-subtitle>
 
     <v-card-actions>
       <v-btn
         color="orange lighten-2"
         text
+        v-on:click="openProduct(item)"
       >
-        Explore
+        Ver
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -42,15 +46,30 @@
 <script>
 import Grid from './Grid.vue'
 
+
 export default {
   data: () => ({
     show: false,
   }),
   components: {Grid},
   props: {
+    item:{
+      type: Object
+    },
     name:{
       String
-      }
+      },
+    url:{
+      String
+    },
+    price:{
+      Number
+    }
+  },
+  methods: {
+    openProduct(item) {
+      this.$emit("openProduct", item);
+    },
   }
 }
 </script>

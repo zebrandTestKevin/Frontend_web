@@ -57,10 +57,10 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: 'IdUser', value: 'idUser', class: "item-header-left"},
-      {text: 'Nombre', value: 'userName', class: "item-header-center"},
-      {text: 'Apellido', value: 'lastName', class: "item-header-center"},
-      {text: 'Email', value: 'email', class: "item-header-center"},
+      {text: 'IdUser', value: 'userId', class: "item-header-left"},
+      {text: 'Nombre', value: 'name', class: "item-header-center"},
+      {text: 'Email', value: 'mail', class: "item-header-center"},
+      {text: 'Status', value: 'status', class: "item-header-center"},
       {text: 'Acciones', value: 'actions', class: "item-header-right"}
     ],
     items: [],
@@ -94,8 +94,8 @@ export default {
       this.dialogEditOpen({account: account, title: "Editar Cuenta"})
 
     },
-    changePage(page) {
-      this.getAccounts({n: 10, i: 10 * page});
+    obtainAccounts() {
+      this.getAccounts();
     },
     searchData() {
       this.getAccounts({n: 10, i: 0, search: this.search});

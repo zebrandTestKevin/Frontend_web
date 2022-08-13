@@ -1,6 +1,7 @@
 import Account from '../models/Account';
 import {accountService} from '../services/'
 
+//module for the petitions of the accounts and the dialogs for the edition and the delete of accounts
 const state = {
     dialogEditState: false,
     dialogDeleteState: false,
@@ -30,9 +31,8 @@ const mutations = {
         state.account = new Account();
     },
     getAccountsOk(state, data) {
-        state.status = {gotAccounts: true}
+        state.status = true
         state.accounts = data.accounts
-        state.totalAccounts = data.totalAccounts
     },
     getCitiesOk(state, data) {
         state.cities = data
@@ -42,21 +42,22 @@ const mutations = {
 
     },
     editAccountOk(state, data) {
-        state.account.idUser = data.idUser;
-        state.account.userName = data.userName;
-        state.account.lastName = data.lastName;
-        state.account.email = data.email;
-        var index = state.accounts.findIndex(v => v.idUser === data.idUser);
+        state.account.userId = data.userId;
+        state.account.name = data.name;
+        state.account.mail = data.mail;
+        state.account.status = data.status;
+        var index = state.accounts.findIndex(v => v.userId === data.userId);
         state.accounts.splice(index, 1);
         state.accounts.splice(index, 0, data);
     },
 
     deleteAccountOk(state, data) {
-        state.accounts.splice(state.accounts.findIndex(v => v.idUser === data.idUser), 1);
+        state.accounts.splice(state.accounts.findIndex(v => v.userId === data.userId),1);
+        // state.accounts.splice(state.accounts.findIndex(v => v.userId === data.userId),state.accounts.length());
         state.totalAccounts--;
     },
     addAccountOk(state, data) {
-        state.accounts.splice(0, 0, data);
+        state.accounts.splice(state.accounts.length, 0, data);
         state.totalAccounts++;
     }
 
@@ -74,13 +75,13 @@ const actions = {
     dialogDeleteClose({commit}) {
         commit('dialogDeleteClose')
     },
-    getAccounts({dispatch, commit}, data) {
+    getAccounts({dispatch, commit}) {
         commit("general/changeLoading", {type: true, label: "Obteniendo Cuentas"}, {root: true});
-        accountService.getAccounts(data.n, data.i, data.search)
+        accountService.getAccounts()
             .then(
                 data => {
 
-                    commit('getAccountsOk', {accounts: data.accounts, totalAccounts: data.total});
+                    commit('getAccountsOk', {accounts: data});
                     commit("general/changeLoading", {type: false, label: ""}, {root: true});
                 },
                 error => {
@@ -109,7 +110,7 @@ const actions = {
         accountService.addAccount(account)
             .then(
                 (id) => {
-                    account.idUser = id;
+                    account.userId = id;
                     commit('addAccountOk', account);
                     commit("general/changeLoading", {type: false, label: ""}, {root: true});
                 },

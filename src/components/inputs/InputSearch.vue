@@ -28,7 +28,6 @@
 <script>
 export default {
 
-
   props: {
     "label": {type: String, default: "input"},
     "type": {type: String, default: "text"},

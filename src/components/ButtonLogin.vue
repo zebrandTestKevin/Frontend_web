@@ -6,12 +6,17 @@
 </template>
 
 <script>
+import router from '../router';
 export default {
-
-
   props: {
     "name": {type: String, default: "input"},
   },
+  methods: {
+      homeAdmin(){
+        router.push({path: "/homeAdmin/accounts"}).catch(() => {
+        });
+      }
+    }
 }
 </script>
 

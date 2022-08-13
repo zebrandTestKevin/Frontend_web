@@ -21,9 +21,9 @@
                   lg="6"
               >
                 <input-general
-                    v-bind:value="drugstoreEdit.name"
-                    v-on:input="drugstoreEdit.name = $event"
-                    :icon="'mdi-pencil'"
+                    v-bind:value="productEdit.name"
+                    v-on:input="productEdit.name = $event"
+                    :icon="'mdi-account-edit'"
                     :label="'Nombre'"
                     :lim="'6'"
                     :rules="[rules.Required]"
@@ -36,10 +36,57 @@
                   lg="6"
               >
                 <input-general
-                    v-bind:value="drugstoreEdit.lon"
-                    v-on:input="drugstoreEdit.lon = $event"
-                    :icon="'mdi-map-marker'"
-                    :label="'Longitud'"
+                    v-bind:value="productEdit.price"
+                    v-on:input="productEdit.price = $event"
+                    :icon="'mdi-account-edit'"
+                    :label="'Precio'"
+                    :lim="'6'"
+                    :rules="[rules.Required]"
+                ></input-general>
+              </v-col>
+
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  lg="6"
+              >
+                <input-general
+                    v-bind:value="productEdit.amount"
+                    v-on:input="productEdit.amount = $event"
+                    :icon="'mdi-account-edit'"
+                    :label="'Stock'"
+                    :lim="'6'"
+                    :rules="[rules.Required]"
+                ></input-general>
+              </v-col>
+
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  lg="6"
+              >
+                <input-general
+                    v-bind:value="productEdit.request"
+                    v-on:input="productEdit.request = $event"
+                    :icon="'mdi-account-edit'"
+                    :label="'Peticiones'"
+                    :lim="'6'"
+                ></input-general>
+              </v-col>
+
+              <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  lg="6"
+              >
+                <input-general
+                    v-bind:value="productEdit.brand"
+                    v-on:input="productEdit.brand = $event"
+                    :icon="'mdi-account-edit'"
+                    :label="'Marca'"
                     :lim="'6'"
                     :rules="[rules.Required]"
                 ></input-general>
@@ -51,27 +98,15 @@
                   lg="6"
               >
                 <input-general
-                    v-bind:value="drugstoreEdit.lat"
-                    v-on:input="drugstoreEdit.lat = $event"
-                    :icon="'mdi-map-marker'"
-                    :label="'Latitud'"
+                    v-bind:value="productEdit.imageUrl"
+                    v-on:input="productEdit.imageUrl = $event"
+                    :icon="'mdi-account-edit'"
+                    :label="'Imagen'"
                     :lim="'6'"
                     :rules="[rules.Required]"
                 ></input-general>
               </v-col>
-              <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                  lg="6"
-              >
-                <select-general
-                    :items="cities"
-                    :label="'Ciudad'"
-                    v-bind:value="drugstoreEdit.idCity"
-                    v-on:input="drugstoreEdit.idCity = $event"
-                ></select-general>
-              </v-col>
+
             </v-row>
           </v-container>
         </v-card-text>
@@ -100,49 +135,48 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
-import Drugstore from '../../models/Drugstore'
+import Product from '../../models/Product'
 import InputGeneral from '../inputs/InputGeneral.vue';
-import SelectGeneral from '../inputs/selectGeneral.vue';
 
 export default {
-  components: {InputGeneral, SelectGeneral},
+  components: {InputGeneral},
   props: {},
   data: () => ({
     active: true,
-    drugstoreEdit: {},
+    productEdit: {},
     rules: {
       Required: (value) =>
-          !!value || "Complete el campo por favor."
+          !!value || "Complete el campo por favor.",
+
     }
   }),
 
   computed: {
-    ...mapState('viewDrugstores', ['dialogEditState', 'drugstore', 'title', 'cities'])
+    ...mapState('product', ['dialogEditState', 'product', 'title'])
   },
   watch: {
-    drugstore(value) {
-      this.drugstoreEdit = new Drugstore(value.idDrugstore, value.idCity, value.name, value.lon, value.lat);
-
+    product(value) {
+      this.productEdit = new Product(value.productId, value.name, value.price, value.amount,value.request,value.brand, value.imageUrl);
+      console.log(this.productEdit);
     }
   },
-
   mounted() {
   },
   methods: {
-    ...mapActions('viewDrugstores', ['dialogEditClose', 'dialogDelete', 'editDrugstore', 'addDrugstore']),
+    ...mapActions('product', ['dialogEditClose', 'dialogDelete', 'editProduct', 'addProduct']),
     cancel() {
       this.dialogEditClose();
     },
     save() {
       console.log(this.title);
       switch (this.title) {
-        case "Editar Farmacia":
+        case "Editar Producto":
           this.dialogEditClose();
-          this.editDrugstore(this.drugstoreEdit);
+          this.editProduct(this.productEdit);
           break;
-        case "Agregar Farmacia":
+        case "Agregar Producto":
           this.dialogEditClose();
-          this.addDrugstore(this.drugstoreEdit);
+          this.addProduct(this.productEdit);
           break;
       }
     }

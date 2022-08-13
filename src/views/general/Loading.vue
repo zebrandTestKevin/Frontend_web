@@ -1,5 +1,4 @@
 <template>
-
   <div class="main-loading">
     <v-progress-circular
         size="70"

@@ -2,13 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
-import Accounts from '../views/home/Accounts'
+import Accounts from '../views/homeAdmin/Accounts'
+import Products from '../views/homeAdmin/Products'
 import Data from '../views/home/Data'
-import Hospitals from '../views/home/Hospitals'
-import Drugstores from '../views/home/DrugStores'
-import Shelters from '../views/home/Shelters'
-import News from '../views/home/News'
-// import {tokenLib} from '../lib/token.lib'
+import HomeAdmin from '../views/HomeAdmin.vue'
 
 Vue.use(VueRouter)
 
@@ -19,10 +16,11 @@ const routes = [
         component: Login,
     },
     {
-        path: '/home',
-        redirect: '/home/accounts',
-        name: 'Home',
-        component: Home,
+        //routes for the viws of the admin users 
+        path: '/homeAdmin',
+        redirect: '/homeAdmin/accounts',
+        name: 'Administracion',
+        component: HomeAdmin,
         children: [
             {
                 path: 'accounts',
@@ -30,35 +28,30 @@ const routes = [
                 component: Accounts,
             },
             {
+                path: 'products',
+                name: 'Administrar Productos',
+                component: Products,
+            },
+            {path: '*', redirect: '/home/data'}//path that for the redirection in case of a bad petition
+        ]
+    },
+    {
+        //routes for the views of the normal ussers
+        path: '/home',
+        redirect: '/home/accounts',
+        name: 'Home',
+        component: Home,
+        children: [
+            {
                 path: 'data',
-                name: 'Administrar Datos',
+                name: 'Catalogo de Productos',
                 component: Data,
             },
-            {
-                path: 'hospitals',
-                name: 'Gestionar Hospitales',
-                component: Hospitals,
-            },
-            {
-                path: 'drugstores',
-                name: 'Gestionar Farmacias',
-                component: Drugstores,
-            },
-            {
-                path: 'shelters',
-                name: 'Gestionar Albergues',
-                component: Shelters,
-            },
-            {
-                path: 'news',
-                name: 'Administrar Noticias',
-                component: News,
-            },
-            {path: '*', redirect: '/home/accounts'}
+            {path: '*', redirect: '/home/data'}//path that for the redirection in case of a bad petition
 
         ]
     },
-    {path: '*', redirect: '/home/data'}
+    {path: '*', redirect: '/home/data'}//path that for the redirection in case of a bad petition
 ]
 
 const router = new VueRouter({
@@ -66,18 +59,5 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 })
-// router.beforeEach((to, _, next) => {
-//     const publicPages = ['/login'];
-//     const authRequired = !publicPages.includes(to.path);
-//     const token = tokenLib.getToken()
-
-//     if (authRequired && !token) {
-//         return next('/login');
-//     } else if (token && !authRequired) {
-//         return next("/home")
-//     } else {
-//         next();
-//     }
-// })
 
 export default router
